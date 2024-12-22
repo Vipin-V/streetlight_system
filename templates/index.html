@@ -60,12 +60,41 @@
         .zone-controls {
             margin-top: 10px;
         }
+        .backup-status {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .backup-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .backup-on {
+            background-color: #4CAF50;
+            box-shadow: 0 0 10px #4CAF50;
+        }
+        .backup-off {
+            background-color: #f44336;
+            box-shadow: 0 0 10px #f44336;
+        }
     </style>
 </head>
 <body>
     <div class="control-panel">
         <h1>Street Light Control Panel</h1>
         
+        <div class="backup-status">
+            <h3>Backup Power Status:</h3>
+            <span class="backup-indicator" id="backup-indicator"></span>
+            <span id="backup-text">Checking...</span>
+        </div>
+
         <div class="mode-controls">
             <h3>System Mode</h3>
             <button onclick="setMode('normal')" id="normal-mode">Normal Mode</button>
@@ -140,6 +169,12 @@
                         const indicator = document.getElementById(key);
                         indicator.className = 'light-indicator ' + status;
                     }
+
+                    // Update backup status
+                    const backupIndicator = document.getElementById('backup-indicator');
+                    const backupText = document.getElementById('backup-text');
+                    backupIndicator.className = 'backup-indicator backup-' + data.backup_status;
+                    backupText.textContent = 'Backup Power: ' + data.backup_status.toUpperCase();
 
                     // Update zone controls visibility
                     const zoneControls = document.querySelectorAll('.zone-controls');
